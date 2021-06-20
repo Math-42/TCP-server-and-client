@@ -52,4 +52,15 @@ int startListen(int* socketFileDescriptor, int numberOfConnections);
  * @return retorna 0 caso ocorra algum erro e 1 caso de certo
  */
 int connectToServer(int* socketFileDescriptor,struct sockaddr_in *serverAddr);
+
+/**
+ * Começa a ouvir conexões na porta predefinida
+ * @param socketFileDescriptor file descriptor
+ * @param socketAddr numero de conexões que irão esperar até serem aceitas
+ * @param connectionFileDescriptor file desciptor da conexão estabelecida 
+ * @return retorna 0 caso ocorra algum erro e 1 caso de certo
+ */
+int acceptConection(int* socketFileDescriptor, struct sockaddr_in *socketAddr, int * connectionFileDescriptor);
+
+
 #endif

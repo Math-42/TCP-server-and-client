@@ -29,3 +29,9 @@ int connectToServer(int* socketFileDescriptor,struct sockaddr_in *serverAddr){
 	return connect(*socketFileDescriptor, (struct sockaddr*)serverAddr, sizeof(*serverAddr)) == -1 ? 0:1;
 }
 
+int acceptConection(int* socketFileDescriptor, struct sockaddr_in *socketAddr, int * connectionFileDescriptor){
+	struct sockaddr_storage their_addr;
+	socklen_t addr_size = sizeof their_addr;
+	*connectionFileDescriptor = accept(*socketFileDescriptor, (struct sockaddr*)&their_addr, &addr_size);
+	return *connectionFileDescriptor == -1 ? 0:1;
+}
