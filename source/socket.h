@@ -28,6 +28,7 @@ int createSocket(int* socketFileDescriptor,struct sockaddr_in *socketAddr, unsig
  * @return retorna 0 caso ocorra algum erro e 1 caso de certo
  */
 int bindSocket(int* socketFileDescriptor, struct sockaddr_in *socketAddr);
+
 /**
  * Associa o socket a uma porta no computador
  * @param socketFileDescriptor file descriptor
@@ -36,4 +37,19 @@ int bindSocket(int* socketFileDescriptor, struct sockaddr_in *socketAddr);
  */
 int bindSocket(int* socketFileDescriptor, struct sockaddr_in *socketAddr);
 
+/**
+ * Começa a ouvir conexões na porta predefinida
+ * @param socketFileDescriptor file descriptor
+ * @param numberOfConnections numero de conexões que serão irão esperar até serem aceitas
+ * @return retorna 0 caso ocorra algum erro e 1 caso de certo
+ */
+int startListen(int* socketFileDescriptor, int numberOfConnections);
+
+/**
+ * Começa a ouvir conexões na porta predefinida
+ * @param socketFileDescriptor file descriptor
+ * @param socketAddr struct contendo os dados do servidor que se deseja conectar
+ * @return retorna 0 caso ocorra algum erro e 1 caso de certo
+ */
+int connectToServer(int* socketFileDescriptor,struct sockaddr_in *serverAddr);
 #endif

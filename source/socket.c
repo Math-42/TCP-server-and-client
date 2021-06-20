@@ -25,3 +25,7 @@ int startListen(int* socketFileDescriptor, int numberOfConnections){
 	return listen(*socketFileDescriptor, numberOfConnections) == -1 ? 0:1;
 }
 
+int connectToServer(int* socketFileDescriptor,struct sockaddr_in *serverAddr){
+	return connect(*socketFileDescriptor, (struct sockaddr*)serverAddr, sizeof(*serverAddr)) == -1 ? 0:1;
+}
+
