@@ -11,6 +11,12 @@
 #include <unistd.h>
 #include <arpa/inet.h>
 
+typedef struct clientConnection{
+	int connectionFileDescriptor;
+	int clientId;
+	pthread_mutex_t *mutex;
+}clientConnection;
+
 /**
  * Cria um socket e seta suas configurações de endereço
  * @param socketFileDescriptor file descriptor
