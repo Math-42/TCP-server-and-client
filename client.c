@@ -1,5 +1,14 @@
 #include "source/socket.h"
 
+#define MAX_MESSAGE_SIZE 80
+#define PORT 8081
+
+/**
+ * Envia e escuta mensagens do servidor
+ * @param socketFileDescriptor file descriptor gerado para a conexão com o servidor
+ */
+void clientRoutine(int socketFileDescriptor);
+
 void main() {
     int socketFileDescriptor;
     struct sockaddr_in serverAddr;
@@ -21,4 +30,25 @@ void main() {
     clientRoutine(socketFileDescriptor);
 
     close(socketFileDescriptor);
+}
+
+void clientRoutine(int socketFileDescriptor) {
+    char message[MAX_MESSAGE_SIZE];
+    bzero(message, MAX_MESSAGE_SIZE);
+
+    read(socketFileDescriptor, message, sizeof(message));
+    printf("Servidor : %s\n", message);
+
+    while (1) {
+        bzero(message, MAX_MESSAGE_SIZE);
+
+        printf("Mensagem: ");
+        scanf("%s", message);
+
+        send(socketFileDescriptor, message, sizeof(message), 0);
+        bzero(message, MAX_MESSAGE_SIZE);
+
+        recv(socketFileDescriptor, message, sizeof(message), 0);
+        printf("Recebido do servidor: %s\n", message);
+    }
 }
