@@ -28,4 +28,12 @@ int createSocket(int* socketFileDescriptor,struct sockaddr_in *socketAddr, unsig
  * @return retorna 0 caso ocorra algum erro e 1 caso de certo
  */
 int bindSocket(int* socketFileDescriptor, struct sockaddr_in *socketAddr);
+/**
+ * Associa o socket a uma porta no computador
+ * @param socketFileDescriptor file descriptor
+ * @param socketAddr struct do endereço do socket
+ * @return retorna 0 caso ocorra algum erro e 1 caso de certo
+ */
+int bindSocket(int* socketFileDescriptor, struct sockaddr_in *socketAddr);
+
 #endif

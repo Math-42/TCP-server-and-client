@@ -21,3 +21,7 @@ int bindSocket(int* socketFileDescriptor, struct sockaddr_in *socketAddr){
 	return setsockopt(*socketFileDescriptor,SOL_SOCKET,SO_REUSEADDR,&yes,sizeof yes) == -1 ? 0:1;//caso falhe tenta reaproveitar o endereço
 }
 
+int startListen(int* socketFileDescriptor, int numberOfConnections){
+	return listen(*socketFileDescriptor, numberOfConnections) == -1 ? 0:1;
+}
+
