@@ -14,3 +14,10 @@ int createSocket(int* socketFileDescriptor,struct sockaddr_in *socketAddr, unsig
 
 	return 1;
 }
+
+int bindSocket(int* socketFileDescriptor, struct sockaddr_in *socketAddr){
+	int yes=1;
+	if(bind(*socketFileDescriptor, (struct sockaddr *)socketAddr, sizeof(*socketAddr)) == 0) return 1;//tenta criar o bind
+	return setsockopt(*socketFileDescriptor,SOL_SOCKET,SO_REUSEADDR,&yes,sizeof yes) == -1 ? 0:1;//caso falhe tenta reaproveitar o endereço
+}
+
