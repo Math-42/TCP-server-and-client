@@ -45,10 +45,12 @@ void clientRoutine(int socketFileDescriptor) {
         printf("Mensagem: ");
         scanf("%s", message);
 
-        if(send(socketFileDescriptor, message, sizeof(message), 0) < 0) break;
+        if(send(socketFileDescriptor, message, sizeof(message), 0) <= 0) break;
         bzero(message, MAX_MESSAGE_SIZE);
 
-        recv(socketFileDescriptor, message, sizeof(message), 0);
+        if(recv(socketFileDescriptor, message, sizeof(message), 0) <= 0) break;
         printf("Recebido do servidor: %s\n", message);
     }
+
+    printf("Conexão perdida...\n");
 }
