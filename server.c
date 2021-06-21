@@ -19,8 +19,18 @@ void *serverRoutine(void* connectionFileDescriptorPointer);
  */
 void threadCreationRoutine(int socketFileDescriptor, struct sockaddr_in serverAddr);
 
+
+/**
+ * Lida com os sinais recebidos pela daemon através de um switch case
+ * @param signal inteiro que representa o sinal recebido
+ */
 void signalHandler(int signal);
 
+
+/**
+ * Lida com as configurações lidas pela daemon no arquivo.conf
+ * @param configsArray vetor contendo os valores lidos na ordem original do arquivo
+ */
 void configHandler(int* configsArray);
 
 void main() {
@@ -31,6 +41,7 @@ void main() {
 
     DaemonInfos.daemonName = "TCP-daemon-server";
     DaemonInfos.logFileName = "/var/log/TCP-daemon-server.log";
+    //DaemonInfos.logFileName = "./TCP-daemon-server.log";
     DaemonInfos.configFileName = "/etc/TCP-daemon-server/TCP-daemon-server.conf";
 
     initDaemon(&DaemonInfos, signalHandler, configHandler);
@@ -55,9 +66,11 @@ void main() {
         syslog(LOG_INFO, "Falha no inicio da escuta\n");
         return;
     }
+    
+    ServerConfig.IS_RUNNING = 1;
     syslog(LOG_INFO, "Escutando conexões\n");
-
     syslog(LOG_INFO, "Iniciando rotina principal do servidor\n");
+
     threadCreationRoutine(socketFileDescriptor, serverAddr);
 
     close(socketFileDescriptor);
@@ -75,7 +88,7 @@ void signalHandler(int signal) {
             break;
         case SIGHUP:
             syslog(LOG_INFO, "Recarregando servidor");
-            //readConfigFile(configFileName);
+            readConfigFile(DaemonInfos.configFileName, configHandler);
             break;
         default :
             break;
@@ -86,7 +99,6 @@ void configHandler(int* configsArray) {
     ServerConfig.MAX_MESSAGE_SIZE = configsArray[0];
     ServerConfig.PORT = configsArray[1];
     ServerConfig.MAX_CONNECTIONS = configsArray[2];
-    ServerConfig.IS_RUNNING = 1;
 }
 
 void threadCreationRoutine(int socketFileDescriptor, struct sockaddr_in serverAddr) {
