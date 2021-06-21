@@ -52,3 +52,6 @@ Mkfile.old
 dkms.conf
 server
 client
+server_daemon
+TCP-client
+TCP-daemon-server
