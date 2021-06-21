@@ -15,3 +15,37 @@ void initDaemon(daemonStruct* currDaemonInfos, void (* signalHandler)(int), void
 	readConfigFile(currDaemonInfos->configFileName, configHandler);
 
 }
+
+int* readConfigFile(char* configurationFileName, void (* configHandler)()) {
+	syslog(LOG_INFO, "Lendo arquivo de configuração");
+
+	FILE *configurationFile = fopen(configurationFileName, "r");
+
+	if (configurationFile == NULL) { //testa se o arquivo foi aberto
+        syslog(LOG_ERR, "Não foi possivel abrir o arquivo de configurações");
+        return NULL;
+    }
+
+	char readChar;
+	int lineCounter = 1;
+	while(fread(&readChar,sizeof(char),1,configurationFile) != 0){//conta quantas linhas existem
+		lineCounter += (readChar == '\n') ? 1:0;
+	}
+
+	fseek(configurationFile,0,0);
+
+	int* configs = (int*)malloc(lineCounter*sizeof(int));
+	int i = 0;
+
+	while(lineCounter--){
+		fscanf(configurationFile, "%*s %*c %d",&configs[i++]);
+	}
+
+	configHandler(configs);
+
+	free(configs);
+	syslog(LOG_INFO, "Configurações lidas com sucesso");
+	fclose(configurationFile);
+
+	return configs;
+}
