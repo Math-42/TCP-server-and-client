@@ -1,6 +1,5 @@
 #ifndef _TCP_SOCKET_
 #define _TCP_SOCKET_
-#include "socket.h"
 #include <netdb.h>
 #include <netinet/in.h>
 #include <stdio.h>
@@ -16,6 +15,14 @@ typedef struct clientConnection{
 	int clientId;
 	pthread_mutex_t *mutex;
 }clientConnection;
+
+typedef struct serverConfig{
+	int MAX_MESSAGE_SIZE;
+	int PORT;
+	int MAX_CONNECTIONS;
+	int IS_RUNNING ;
+} serverConfig;
+
 
 /**
  * Cria um socket e seta suas configurações de endereço
