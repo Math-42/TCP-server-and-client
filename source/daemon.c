@@ -49,3 +49,20 @@ int* readConfigFile(char* configurationFileName, void (* configHandler)()) {
 
 	return configs;
 }
+
+void setupLogFile(daemonStruct* currDaemonInfos){
+	currDaemonInfos->logStreamFile = fopen(currDaemonInfos->logFileName,"w+");
+
+	if(currDaemonInfos->logStreamFile != NULL){
+		currDaemonInfos->logStreamFile = stdout;
+		return;
+	}
+
+	syslog(LOG_ERR, "Erro ao abrir arquivo de log");
+}
+
+void finishDaemonRoutine(daemonStruct* currDaemonInfos){
+	syslog(LOG_INFO, "Finalizando daemon");
+	if(currDaemonInfos->logStreamFile != NULL) fclose(currDaemonInfos->logStreamFile);
+	closelog();
+}
