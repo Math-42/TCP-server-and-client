@@ -11,6 +11,12 @@
 #include <syslog.h>
 #include <signal.h>
 
+typedef struct daemonStruct{
+	char *configFileName;
+	char *logFileName;
+	char *daemonName;
+	FILE *logStreamFile;
+} daemonStruct;
 
 /**
  * Transforma o programa em uma daemon
