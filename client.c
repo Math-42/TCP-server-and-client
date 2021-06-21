@@ -1,7 +1,7 @@
 #include "source/socket.h"
 
 #define MAX_MESSAGE_SIZE 80
-#define PORT 8081
+#define PORT 3050
 
 /**
  * Envia e escuta mensagens do servidor
@@ -45,7 +45,7 @@ void clientRoutine(int socketFileDescriptor) {
         printf("Mensagem: ");
         scanf("%s", message);
 
-        send(socketFileDescriptor, message, sizeof(message), 0);
+        if(send(socketFileDescriptor, message, sizeof(message), 0) < 0) break;
         bzero(message, MAX_MESSAGE_SIZE);
 
         recv(socketFileDescriptor, message, sizeof(message), 0);
