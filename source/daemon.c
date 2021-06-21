@@ -4,9 +4,10 @@ void initDaemon(daemonStruct* currDaemonInfos, void (* signalHandler)(int), void
 
 
 	openlog(currDaemonInfos->daemonName, LOG_PID|LOG_CONS, LOG_DAEMON);
-	setupLogFile(currDaemonInfos);
+	
 
-    syslog(LOG_INFO, "Iniciando deamon: %s", currDaemonInfos->daemonName);
+    syslog(LOG_NOTICE, "Iniciando deamon: %s", currDaemonInfos->daemonName);
+	setupLogFile(currDaemonInfos);
 
 	//fazer um for talvez? já que os sinais são apenas inteiros
     signal(SIGINT, signalHandler);
@@ -16,14 +17,14 @@ void initDaemon(daemonStruct* currDaemonInfos, void (* signalHandler)(int), void
 
 }
 
-int* readConfigFile(char* configurationFileName, void (* configHandler)()) {
+void readConfigFile(char* configurationFileName, void (* configHandler)()) {
 	syslog(LOG_INFO, "Lendo arquivo de configuração");
 
 	FILE *configurationFile = fopen(configurationFileName, "r");
 
 	if (configurationFile == NULL) { //testa se o arquivo foi aberto
         syslog(LOG_ERR, "Não foi possivel abrir o arquivo de configurações");
-        return NULL;
+        return;
     }
 
 	char readChar;
@@ -46,8 +47,6 @@ int* readConfigFile(char* configurationFileName, void (* configHandler)()) {
 	free(configs);
 	syslog(LOG_INFO, "Configurações lidas com sucesso");
 	fclose(configurationFile);
-
-	return configs;
 }
 
 void setupLogFile(daemonStruct* currDaemonInfos){

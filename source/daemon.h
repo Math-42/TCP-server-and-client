@@ -27,7 +27,7 @@ void initDaemon(daemonStruct* currDaemonInfos, void (* signalHandler)(), void (c
  * 
  * 
  */
-int* readConfigFile(char* configurationFileName, void (* configHandler)());
+void readConfigFile(char* configurationFileName, void (* configHandler)());
 
 /**
  * 
