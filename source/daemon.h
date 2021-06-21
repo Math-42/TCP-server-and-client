@@ -12,5 +12,10 @@
 #include <signal.h>
 
 
+/**
+ * Transforma o programa em uma daemon
+ */
+void initDaemon(daemonStruct* currDaemonInfos, void (* signalHandler)(), void (configHandler)(int *));
+
 
 #endif
